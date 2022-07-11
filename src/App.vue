@@ -10,7 +10,7 @@ import { RouterLink, RouterView } from "vue-router";
     </nav>
     <h1 class="self-center">SOLWR SOLWR</h1>
   </header>
-  <body class="bg-white p-4">
+  <body class="bg-black p-4">
     <RouterView />
   </body>
 </template>

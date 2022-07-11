@@ -1,9 +1,10 @@
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
+import { watch } from "vue";
 
 export const useGameCounterStore = defineStore({
-  id: 'gameCounter',
+  id: "gameCounter",
   state: () => ({
     timeCounter: 0,
-    moveCounter: 0
+    moveCounter: 0,
   }),
-})
+});

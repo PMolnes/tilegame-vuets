@@ -1,12 +1,28 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+import { RouterLink, RouterView } from "vue-router";
 </script>
 
 <template>
-
-  <RouterView />
+  <header class="p-4 flex flex-col">
+    <nav class="flex justify-between">
+      <RouterLink to="/">GAME</RouterLink>
+      <RouterLink to="/highscores">HIGHSCORES</RouterLink>
+    </nav>
+    <h1 class="self-center">SOLWR SOLWR</h1>
+  </header>
+  <body class="bg-white p-4">
+    <RouterView />
+  </body>
 </template>
 
 <style>
-
+#app {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 10rem 1fr;
+  font-family: 'Fira Code', monospace;
+  background-color: black;
+  color: #EBFF00;
+}
 </style>

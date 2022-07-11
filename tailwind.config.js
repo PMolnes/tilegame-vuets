@@ -5,7 +5,14 @@ module.exports = {
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    fontFamily: {
+      'mono': ['Fira Code', 'monospace'],
+    },
+    extend: {
+      colors: {
+        'solwr-yellow': '#EBFF00'
+      }
+    },
   },
   plugins: [],
 }

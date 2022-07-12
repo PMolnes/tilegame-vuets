@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-7">
+  <div class="grid grid-cols-7 max-w-lg">
     <TileVue :key="tile.id" v-for="tile in props.tiles" :color="tile.color"/>
   </div>
 </template>

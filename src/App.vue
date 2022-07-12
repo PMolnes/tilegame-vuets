@@ -8,7 +8,7 @@ import { RouterLink, RouterView } from "vue-router";
       <RouterLink to="/">GAME</RouterLink>
       <RouterLink to="/highscores">HIGHSCORES</RouterLink>
     </nav>
-    <h1 class="self-center">SOLWR SOLWR</h1>
+    <h1 class="flex self-center h-full items-center text-3xl">SOLWR SOLWR</h1>
   </header>
   <body class="bg-black p-4">
     <RouterView />

@@ -16,6 +16,8 @@ const chooseBackground = (color: string) => {
       return "bg-black";
     case "yellow":
       return "bg-solwr-yellow";
+    case "white":
+      return "bg-white";
     default:
       return "bg-solwr-black";
   }

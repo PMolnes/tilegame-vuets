@@ -1,61 +1,15 @@
 <template>
   <div class="grid grid-cols-7">
-    <Tile v-for="tile in tiles" :color="tile"/>
+    <TileVue :key="tile.index" v-for="tile in props.tiles" :color="tile.color"/>
   </div>
 </template>
 
 <script setup lang="ts">
-import Tile from "./Tile.vue";
+import type { Tile } from "src/types/tile";
+import TileVue from "./Tile.vue";
 
-const tiles = [
-  "black",
-  "black",
-  "black",
-  "black",
-  "black",
-  "black",
-  "black",
-  "black",
-  "black",
-  "yellow",
-  "yellow",
-  "yellow",
-  "yellow",
-  "black",
-  "black",
-  "yellow",
-  "black",
-  "black",
-  "black",
-  "black",
-  "black",
-  "black",
-  "black",
-  "yellow",
-  "yellow",
-  "yellow",
-  "black",
-  "black",
-  "black",
-  "black",
-  "black",
-  "black",
-  "black",
-  "yellow",
-  "black",
-  "black",
-  "yellow",
-  "yellow",
-  "yellow",
-  "yellow",
-  "black",
-  "black",
-  "black",
-  "black",
-  "black",
-  "black",
-  "black",
-  "black",
-  "black",
-];
+const props = defineProps<{
+  tiles: Tile[];
+}>();
+setTimeout(() => { console.log(props.tiles) }, 5000)
 </script>

@@ -1,4 +1,4 @@
 export interface Tile {
-  index: number;
+  id: number;
   color: string;
 }

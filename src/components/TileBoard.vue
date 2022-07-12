@@ -1,6 +1,6 @@
 <template>
   <div class="grid grid-cols-7">
-    <TileVue :key="tile.index" v-for="tile in props.tiles" :color="tile.color"/>
+    <TileVue :key="tile.id" v-for="tile in props.tiles" :color="tile.color"/>
   </div>
 </template>
 

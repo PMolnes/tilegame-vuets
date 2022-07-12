@@ -1,5 +1,5 @@
 <template>
-  <div @keydown="(event) => swapWithKeys(event.key)" class="flex flex-col items-center gap-8">
+  <div class="flex flex-col items-center gap-8">
     <SolveTimer />
     <TileBoard class="mb-2 w-full" :tiles="tiles" />
     <button
@@ -38,6 +38,10 @@ const shuffle = () => {
   gameCounter.startTimer(running);
 };
 
+window.addEventListener("keydown", (event) => {
+  swapWithKeys(event.key);
+});
+
 const swap = (whiteTileIndex: number, tileToSwapIndex: number) => {
   if (
     (whiteTileIndex % 7 === 6 && tileToSwapIndex === whiteTileIndex + 1) ||
@@ -51,6 +55,7 @@ const swap = (whiteTileIndex: number, tileToSwapIndex: number) => {
   arr[tileToSwapIndex] = arr[whiteTileIndex];
   arr[whiteTileIndex] = temp;
   tiles.value = arr;
+  gameCounter.incrementMoveCounter();
 };
 
 const swapWithKeys = (key: string) => {

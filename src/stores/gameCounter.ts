@@ -17,6 +17,9 @@ export const useGameCounterStore = defineStore({
         clearInterval(interval);
       }
       return () => clearInterval(interval);
+    },
+    incrementMoveCounter() {
+      this.moveCounter++;
     }
   }
 });

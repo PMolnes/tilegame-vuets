@@ -1,5 +1,5 @@
 <template>
-  <div class="border aspect-square" :class="chooseBackground(props.color)"></div>
+  <div class="border border-white aspect-square" :class="chooseBackground(props.color)"></div>
 </template>
 
 <script setup lang="ts">

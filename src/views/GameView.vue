@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center gap-8">
+  <div @keydown="(event) => swapWithKeys(event.key)" class="flex flex-col items-center gap-8">
     <SolveTimer />
     <TileBoard class="mb-2 w-full" :tiles="tiles" />
     <button
@@ -36,6 +36,43 @@ const shuffle = () => {
   tiles.value = array;
   running.value = true;
   gameCounter.startTimer(running);
+};
+
+const swap = (whiteTileIndex: number, tileToSwapIndex: number) => {
+  if (
+    (whiteTileIndex % 7 === 6 && tileToSwapIndex === whiteTileIndex + 1) ||
+    (whiteTileIndex % 7 === 0 && tileToSwapIndex === whiteTileIndex - 1) ||
+    tileToSwapIndex < 0 ||
+    tileToSwapIndex > tiles.value.length - 1
+  )
+    return;
+  let arr = tiles.value;
+  let temp = arr[tileToSwapIndex];
+  arr[tileToSwapIndex] = arr[whiteTileIndex];
+  arr[whiteTileIndex] = temp;
+  tiles.value = arr;
+};
+
+const swapWithKeys = (key: string) => {
+  const whiteTileIndex = tiles.value.findIndex(
+    (tile) => tile.color === "white"
+  );
+  switch (key) {
+    case "ArrowLeft":
+      swap(whiteTileIndex, whiteTileIndex - 1);
+      break;
+    case "ArrowUp":
+      swap(whiteTileIndex, whiteTileIndex - 7);
+      break;
+    case "ArrowRight":
+      swap(whiteTileIndex, whiteTileIndex + 1);
+      break;
+    case "ArrowDown":
+      swap(whiteTileIndex, whiteTileIndex + 7);
+      break;
+    default:
+      break;
+  }
 };
 
 const yellowTileIndices = [9, 10, 11, 12, 15, 23, 24, 25, 33, 36, 37, 38, 39];

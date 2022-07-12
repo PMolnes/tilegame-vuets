@@ -11,5 +11,4 @@ import TileVue from "./Tile.vue";
 const props = defineProps<{
   tiles: Tile[];
 }>();
-setTimeout(() => { console.log(props.tiles) }, 5000)
 </script>

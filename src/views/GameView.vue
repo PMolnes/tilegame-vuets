@@ -19,14 +19,11 @@ import { ref, watch } from "vue";
 import type { Tile } from "src/types/tile";
 
 let gameCounter: any;
-const running = ref(false);
-const solved = ref(true);
 
 gameCounter = useGameCounterStore();
 
 const shuffle = () => {
   if (gameCounter.running) return;
-  solved.value = true;
   getLastTile().color = "white";
   let array = tiles.value;
   for (let i = array.length - 1; i > 0; i--) {
@@ -37,7 +34,7 @@ const shuffle = () => {
   }
   tiles.value = array;
   gameCounter.setRunning();
-  gameCounter.startTimer(running);
+  //gameCounter.startTimer();
 };
 
 window.addEventListener("keydown", (event) => {
@@ -50,7 +47,7 @@ const swap = (whiteTileIndex: number, tileToSwapIndex: number) => {
     (whiteTileIndex % 7 === 0 && tileToSwapIndex === whiteTileIndex - 1) ||
     tileToSwapIndex < 0 ||
     tileToSwapIndex > tiles.value.length - 1 ||
-    !gameCounter.running
+    !gameCounter.getRunning()
   )
     return;
   let arr = tiles.value;
@@ -109,23 +106,35 @@ let tiles = ref<Tile[]>(createTiles());
 
 const isSolved = () => {
   for (const element of yellowTileIndices) {
-    if (tiles.value[element].color !== 'yellow') {
+    if (tiles.value[element].color !== "yellow") {
       return false;
     }
   }
   return true;
-}
+};
 
-watch (tiles.value, () => {
-  console.log('test');
+watch(tiles.value, () => {
+  console.log("test");
   if (isSolved()) {
-    console.log('solved');
+    console.log("solved");
     gameCounter.setRunning();
-    solved.value = true;
   }
-})
+});
 
 const getLastTile = () => {
   return tiles.value[tiles.value.length - 1];
 };
+
+gameCounter.$subscribe((mutation: any, state: any) => {
+  let interval = 0;
+  if (state.running) {
+    interval = setInterval(() => {
+      gameCounter.incrementTimeCounter();
+    }, 10);
+  } else if (!state.running) {
+    clearInterval(interval);
+  }
+  return () => clearInterval(interval);
+})
+
 </script>

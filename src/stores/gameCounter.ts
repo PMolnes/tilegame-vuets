@@ -8,7 +8,7 @@ export const useGameCounterStore = defineStore({
     running: false,
   }),
   actions: {
-    startTimer(running: boolean) {
+    startTimer() {
       let interval: number | undefined;
       if (this.running) {
         interval = setInterval(() => {
@@ -24,6 +24,12 @@ export const useGameCounterStore = defineStore({
     },
     setRunning() {
       this.running = !this.running;
+    },
+    getRunning() {
+      return this.running;
+    },
+    incrementTimeCounter() {
+      this.timeCounter = this.timeCounter + 10;
     }
-  }
+  },
 });

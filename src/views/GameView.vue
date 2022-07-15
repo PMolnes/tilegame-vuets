@@ -6,7 +6,7 @@
       @click="shuffle"
       class="bg-solwr-yellow text-black p-2 px-4 w-full max-w-lg"
     >
-      SHUFFLE
+      {{ buttonText }}
     </button>
   </div>
 </template>
@@ -15,15 +15,22 @@
 import TileBoard from "../components/TileBoard.vue";
 import SolveTimer from "../components/SolveTimer.vue";
 import { useGameCounterStore } from "../stores/gameCounter";
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import type { Tile } from "src/types/tile";
 
 let gameCounter: any;
+const solved = ref<boolean>();
 
 gameCounter = useGameCounterStore();
 
+const buttonText = computed(() => {
+  if (solved.value) return 'PLAY AGAIN';
+  return 'SHUFFLE';
+})
+
 const shuffle = () => {
   if (gameCounter.running) return;
+  solved.value = false;
   getLastTile().color = "white";
   let array = tiles.value;
   for (let i = array.length - 1; i > 0; i--) {
@@ -33,8 +40,7 @@ const shuffle = () => {
     array[j] = temp;
   }
   tiles.value = array;
-  gameCounter.setRunning();
-  //gameCounter.startTimer();
+  gameCounter.startTimer();
 };
 
 window.addEventListener("keydown", (event) => {
@@ -47,7 +53,7 @@ const swap = (whiteTileIndex: number, tileToSwapIndex: number) => {
     (whiteTileIndex % 7 === 0 && tileToSwapIndex === whiteTileIndex - 1) ||
     tileToSwapIndex < 0 ||
     tileToSwapIndex > tiles.value.length - 1 ||
-    !gameCounter.getRunning()
+    solved.value
   )
     return;
   let arr = tiles.value;
@@ -106,35 +112,26 @@ let tiles = ref<Tile[]>(createTiles());
 
 const isSolved = () => {
   for (const element of yellowTileIndices) {
-    if (tiles.value[element].color !== "yellow") {
+    if (tiles.value[element].color !== 'yellow') {
       return false;
     }
   }
   return true;
-};
+}
 
-watch(tiles.value, () => {
-  console.log("test");
+watch (tiles.value, () => {
   if (isSolved()) {
-    console.log("solved");
-    gameCounter.setRunning();
+    gameCounter.stopTimer();
+    solved.value = true;
+    //getWhiteTile().color = 'yellow';
   }
-});
+})
+
+const getWhiteTile = () => {
+  return tiles.value[tiles.value.findIndex(tile => tile.color === 'white')];
+}
 
 const getLastTile = () => {
   return tiles.value[tiles.value.length - 1];
 };
-
-gameCounter.$subscribe((mutation: any, state: any) => {
-  let interval = 0;
-  if (state.running) {
-    interval = setInterval(() => {
-      gameCounter.incrementTimeCounter();
-    }, 10);
-  } else if (!state.running) {
-    clearInterval(interval);
-  }
-  return () => clearInterval(interval);
-})
-
 </script>

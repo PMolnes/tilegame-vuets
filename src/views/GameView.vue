@@ -2,7 +2,7 @@
   <div class="flex flex-col items-center gap-8">
     <SolveTimer />
     <TileBoard class="mb-2 w-full" :tiles="tiles" />
-    <div class="flex flex-col gap-2 w-full">
+    <div class="flex flex-col gap-2 w-full items-center">
       <button
         @click="shuffle"
         class="bg-solwr-yellow text-black p-2 px-4 w-full max-w-lg"

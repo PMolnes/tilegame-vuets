@@ -11,7 +11,11 @@ import { RouterLink, RouterView } from "vue-router";
     <h1 class="flex self-center h-full items-center text-3xl">SOLWR SOLWR</h1>
   </header>
   <body class="bg-black p-4">
-    <RouterView />
+      <RouterView v-slot="{ Component }">
+        <KeepAlive>
+          <component :is="Component" />
+        </KeepAlive>
+      </RouterView>
   </body>
 </template>
 

@@ -24,9 +24,9 @@ const solved = ref<boolean>();
 gameCounter = useGameCounterStore();
 
 const buttonText = computed(() => {
-  if (solved.value) return 'PLAY AGAIN';
-  return 'SHUFFLE';
-})
+  if (solved.value) return "PLAY AGAIN";
+  return "SHUFFLE";
+});
 
 const shuffle = () => {
   if (gameCounter.running) return;
@@ -112,24 +112,27 @@ let tiles = ref<Tile[]>(createTiles());
 
 const isSolved = () => {
   for (const element of yellowTileIndices) {
-    if (tiles.value[element].color !== 'yellow') {
+    if (tiles.value[element].color !== "yellow") {
       return false;
     }
   }
   return true;
-}
+};
 
-watch (tiles.value, () => {
+watch(tiles.value, () => {
   if (isSolved()) {
     gameCounter.stopTimer();
     solved.value = true;
-    //getWhiteTile().color = 'yellow';
+    const whiteTile = getWhiteTile();
+    if (whiteTile != null) {
+      whiteTile.color = "black";
+    }
   }
-})
+});
 
 const getWhiteTile = () => {
-  return tiles.value[tiles.value.findIndex(tile => tile.color === 'white')];
-}
+  return tiles.value.find((tile) => tile.color === "white");
+};
 
 const getLastTile = () => {
   return tiles.value[tiles.value.length - 1];

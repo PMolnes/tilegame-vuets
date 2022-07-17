@@ -2,12 +2,29 @@
   <div class="flex flex-col items-center gap-8">
     <SolveTimer />
     <TileBoard class="mb-2 w-full" :tiles="tiles" />
-    <button
-      @click="shuffle"
-      class="bg-solwr-yellow text-black p-2 px-4 w-full max-w-lg"
-    >
-      {{ buttonText }}
-    </button>
+    <div class="flex flex-col gap-2 w-full">
+      <button
+        @click="shuffle"
+        class="bg-solwr-yellow text-black p-2 px-4 w-full max-w-lg"
+      >
+        {{ buttonText }}
+      </button>
+      <transition
+        enter-active-class="duration-500 ease-out"
+        enter-from-class="transform opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="duration-200 ease-in"
+        leave-from-class="opacity-100"
+        leave-to-class="transform opacity-0"
+      >
+        <button
+          v-if="solved"
+          class="bg-solwr-yellow text-black p-2 px-4 w-full max-w-lg"
+        >
+          SAVE HIGHSCORE
+        </button>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -30,6 +47,7 @@ const buttonText = computed(() => {
 
 const shuffle = () => {
   if (gameCounter.running) return;
+  gameCounter.resetCounters();
   solved.value = false;
   getLastTile().color = "white";
   let array = tiles.value;

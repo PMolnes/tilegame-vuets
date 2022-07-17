@@ -22,5 +22,9 @@ export const useGameCounterStore = defineStore({
     incrementTimeCounter() {
       this.timeCounter = this.timeCounter + 10;
     },
+    resetCounters() {
+      this.timeCounter = 0;
+      this.moveCounter = 0;
+    }
   },
 });

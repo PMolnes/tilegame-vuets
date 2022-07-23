@@ -1,11 +1,16 @@
 <template>
   <div class="flex flex-col items-center gap-8">
     <SolveTimer />
-    <TileBoard class="mb-2 w-full" :tiles="tiles" />
+    <div class="w-full flex flex-col items-center">
+      <TileBoard class="mb-2 w-full" :tiles="tiles" />
+      <button class="bg-solwr-yellow text-black w-8 h-8">
+        ?
+      </button>
+    </div>
     <div class="flex flex-col gap-2 w-full items-center">
       <button
         @click="shuffle"
-        class="bg-solwr-yellow text-black p-2 px-4 w-full max-w-lg"
+        class="bg-solwr-yellow text-black p-2 px-4 w-full max-w-lg focus:outline-none"
       >
         {{ buttonText }}
       </button>
@@ -32,7 +37,7 @@
 import TileBoard from "../components/TileBoard.vue";
 import SolveTimer from "../components/SolveTimer.vue";
 import { useGameCounterStore } from "../stores/gameCounter";
-import { computed, ref, watch } from "vue";
+import { computed, inject, provide, ref, watch } from "vue";
 import type { Tile } from "src/types/tile";
 
 let gameCounter: any;
@@ -46,7 +51,7 @@ const buttonText = computed(() => {
 });
 
 const shuffle = () => {
-  if (gameCounter.running) return;
+  if (solved.value === false) return;
   gameCounter.resetCounters();
   solved.value = false;
   getLastTile().color = "white";
@@ -103,6 +108,30 @@ const swapWithKeys = (key: string) => {
       break;
   }
 };
+
+function swapWithClick(tileId: number) {
+  const pressedTileIndex = tiles.value.findIndex((elem) => elem.id === tileId);
+  const openTile = getWhiteTile();
+  if (openTile !== undefined) {
+    const openTileIndex = tiles.value.findIndex(
+      (tile) => tile.id === openTile.id
+    );
+    if (canSwap(openTileIndex, pressedTileIndex)) {
+      swap(openTileIndex, pressedTileIndex);
+    }
+  }
+}
+
+function canSwap(openTileIndex: number, pressedTileIndex: number) {
+  return (
+    pressedTileIndex + 1 === openTileIndex ||
+    pressedTileIndex - 1 === openTileIndex ||
+    pressedTileIndex + 7 === openTileIndex ||
+    pressedTileIndex - 7 === openTileIndex
+  );
+}
+
+provide("swapWithClick", swapWithClick);
 
 const yellowTileIndices = [9, 10, 11, 12, 15, 23, 24, 25, 33, 36, 37, 38, 39];
 

@@ -2,9 +2,23 @@
   <div class="flex flex-col items-center gap-8">
     <SolveTimer />
     <div class="w-full flex flex-col items-center">
-      <TileBoard class="mb-2 w-full" :tiles="tiles" />
-      <button class="bg-solwr-yellow text-black w-8 h-8">
-        ?
+      <transition
+        mode="out-in"
+        enter-active-class="duration-500 ease-out"
+        enter-from-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="duration-500 ease-in"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <TileBoard v-if="!showLogo" class="mb-2 w-full" :tiles="tiles" />
+        <TileBoard v-else class="mb-2 w-full" :tiles="originalTiles" />
+      </transition>
+      <button
+        @click="toggleLogo"
+        class="bg-solwr-yellow text-black p-2 px-4 w-full max-w-lg focus:outline-none"
+      >
+        SHOW LOGO
       </button>
     </div>
     <div class="flex flex-col gap-2 w-full items-center">
@@ -37,11 +51,12 @@
 import TileBoard from "../components/TileBoard.vue";
 import SolveTimer from "../components/SolveTimer.vue";
 import { useGameCounterStore } from "../stores/gameCounter";
-import { computed, inject, provide, ref, watch } from "vue";
+import { computed, provide, ref, watch } from "vue";
 import type { Tile } from "src/types/tile";
 
 let gameCounter: any;
-const solved = ref<boolean>();
+const solved = ref<boolean>(true);
+let showLogo = ref(false);
 
 gameCounter = useGameCounterStore();
 
@@ -51,6 +66,7 @@ const buttonText = computed(() => {
 });
 
 const shuffle = () => {
+  showLogo.value = false;
   if (solved.value === false) return;
   gameCounter.resetCounters();
   solved.value = false;
@@ -156,6 +172,13 @@ const createTiles = () => {
 };
 
 let tiles = ref<Tile[]>(createTiles());
+const originalTiles = ref(createTiles());
+
+const toggleLogo = () => {
+  if (!solved.value) {
+    showLogo.value = !showLogo.value;
+  }
+};
 
 const isSolved = () => {
   for (const element of yellowTileIndices) {

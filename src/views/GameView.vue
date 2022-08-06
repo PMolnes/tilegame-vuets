@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col items-center gap-8">
+  <div class="flex flex-col items-center">
     <SolveTimer />
-    <div class="w-full flex flex-col items-center">
+    <div class="w-full max-w-lg flex flex-col items-center">
       <transition
         mode="out-in"
         enter-active-class="duration-500 ease-out"
@@ -11,15 +11,10 @@
         leave-from-class="opacity-100"
         leave-to-class="opacity-0"
       >
-        <TileBoard v-if="!showLogo" class="mb-2 w-full" :tiles="tiles" />
-        <TileBoard v-else class="mb-2 w-full" :tiles="originalTiles" />
+        <TileBoard v-if="!showLogo" class="w-full" :tiles="tiles" />
+        <TileBoard v-else class="w-full" :tiles="originalTiles" />
       </transition>
-      <button
-        @click="toggleLogo"
-        class="bg-solwr-yellow text-black p-2 px-4 w-full max-w-lg focus:outline-none"
-      >
-        SHOW LOGO
-      </button>
+      <EyeIcon @click="toggleLogo" :open="showLogo" />
     </div>
     <div class="flex flex-col gap-2 w-full items-center">
       <button
@@ -36,12 +31,7 @@
         leave-from-class="opacity-100"
         leave-to-class="transform opacity-0"
       >
-        <button
-          v-if="solved"
-          class="bg-solwr-yellow text-black p-2 px-4 w-full max-w-lg"
-        >
-          SAVE HIGHSCORE
-        </button>
+        <SaveHighscore :solved="solved"/>
       </transition>
     </div>
   </div>
@@ -53,9 +43,11 @@ import SolveTimer from "../components/SolveTimer.vue";
 import { useGameCounterStore } from "../stores/gameCounter";
 import { computed, provide, ref, watch } from "vue";
 import type { Tile } from "src/types/tile";
+import EyeIcon from "../components/EyeIcon.vue";
+import SaveHighscore from "../components/SaveHighscore.vue";
 
 let gameCounter: any;
-const solved = ref<boolean>(true);
+const solved = ref<boolean>();
 let showLogo = ref(false);
 
 gameCounter = useGameCounterStore();
@@ -175,7 +167,7 @@ let tiles = ref<Tile[]>(createTiles());
 const originalTiles = ref(createTiles());
 
 const toggleLogo = () => {
-  if (!solved.value) {
+  if (!solved.value && solved.value !== undefined) {
     showLogo.value = !showLogo.value;
   }
 };

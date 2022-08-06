@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center">
+  <div class="text-center my-4">
     <p>MOVES: {{ gameCounter.moveCounter }}</p>
     <span>{{("0" + Math.floor((gameCounter.timeCounter / 60000) % 60)).slice(-2)}}:</span>
     <span>{{("0" + Math.floor((gameCounter.timeCounter / 1000) % 60)).slice(-2)}}:</span>

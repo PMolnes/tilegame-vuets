@@ -46,11 +46,9 @@ import type { Tile } from "src/types/tile";
 import EyeIcon from "../components/EyeIcon.vue";
 import SaveHighscore from "../components/SaveHighscore.vue";
 
-let gameCounter: any;
+let gameCounter = useGameCounterStore();
 const solved = ref<boolean>();
 let showLogo = ref(false);
-
-gameCounter = useGameCounterStore();
 
 const buttonText = computed(() => {
   if (solved.value) return "PLAY AGAIN";

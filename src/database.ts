@@ -28,8 +28,6 @@ export const getTopFive = (measure: string) => {
     query(child(ref(db), "highscores/"), orderByChild(measure), limitToFirst(5)),
     (snapshot) => {
       if (snapshot.exists()) {
-        const data = snapshot.val();
-        console.log(data);
         topFive.value = [];
         snapshot.forEach(childSnapshot => {
           topFive.value.push({

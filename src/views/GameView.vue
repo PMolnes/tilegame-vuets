@@ -5,11 +5,11 @@
       <transition
         mode="out-in"
         enter-active-class="duration-500 ease-out"
-        enter-from-class="opacity-0"
+        enter-from-class="transform opacity-0"
         enter-to-class="opacity-100"
         leave-active-class="duration-500 ease-in"
         leave-from-class="opacity-100"
-        leave-to-class="opacity-0"
+        leave-to-class="transform opacity-0"
       >
         <TileBoard v-if="!showLogo" class="w-full" :tiles="tiles" />
         <TileBoard v-else class="w-full" :tiles="originalTiles" />
@@ -17,23 +17,17 @@
       <EyeIcon @click="toggleLogo" :open="showLogo" />
     </div>
     <div class="flex flex-col gap-2 w-full items-center">
-      <button
-        @click="shuffle"
-        class="bg-solwr-yellow text-black p-2 px-4 w-full max-w-lg focus:outline-none"
-      >
+      <BaseButton @click="shuffle">
         {{ buttonText }}
-      </button>
-      <transition
-        enter-active-class="duration-500 ease-out"
-        enter-from-class="transform opacity-0"
-        enter-to-class="opacity-100"
-        leave-active-class="duration-200 ease-in"
-        leave-from-class="opacity-100"
-        leave-to-class="transform opacity-0"
-      >
-        <SaveHighscore :solved="solved"/>
-      </transition>
+      </BaseButton>
+      <BaseTransition>
+        <BaseButton v-if="solved" @click="toggleSaveHighscoreModal">
+          SAVE HIGHSCORE
+        </BaseButton>
+      </BaseTransition>
+      <SaveHighscore @close="toggleSaveHighscoreModal" :isOpen="showSaveHighscoreModal" :solved="solved"/>
     </div>
+    <HowToPlayButton />
   </div>
 </template>
 
@@ -45,15 +39,23 @@ import { computed, provide, ref, watch } from "vue";
 import type { Tile } from "src/types/tile";
 import EyeIcon from "../components/EyeIcon.vue";
 import SaveHighscore from "../components/SaveHighscore.vue";
+import BaseButton from "../components/BaseButton.vue";
+import BaseTransition from "../components/BaseTransition.vue";
+import HowToPlayButton from "../components/HowToPlayButton.vue";
 
 let gameCounter = useGameCounterStore();
-const solved = ref<boolean>();
+let solved = ref<boolean>();
 let showLogo = ref(false);
+let showSaveHighscoreModal = ref(false);
 
 const buttonText = computed(() => {
   if (solved.value) return "PLAY AGAIN";
   return "SHUFFLE";
 });
+
+const toggleSaveHighscoreModal = () => {
+  showSaveHighscoreModal.value = !showSaveHighscoreModal.value;
+}
 
 const shuffle = () => {
   showLogo.value = false;
@@ -71,6 +73,10 @@ const shuffle = () => {
   tiles.value = array;
   gameCounter.startTimer();
 };
+
+window.addEventListener("keydown", event => {
+  if (event.key === 'e') toggleLogo();
+});
 
 window.addEventListener("keydown", (event) => {
   swapWithKeys(event.key);

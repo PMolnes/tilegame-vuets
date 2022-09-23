@@ -25,7 +25,11 @@
           SAVE HIGHSCORE
         </BaseButton>
       </BaseTransition>
-      <SaveHighscore @close="toggleSaveHighscoreModal" :isOpen="showSaveHighscoreModal" :solved="solved"/>
+      <SaveHighscore
+        @close="toggleSaveHighscoreModal"
+        :isOpen="showSaveHighscoreModal"
+        :solved="solved"
+      />
     </div>
     <HowToPlayButton />
   </div>
@@ -55,7 +59,7 @@ const buttonText = computed(() => {
 
 const toggleSaveHighscoreModal = () => {
   showSaveHighscoreModal.value = !showSaveHighscoreModal.value;
-}
+};
 
 const shuffle = () => {
   showLogo.value = false;
@@ -74,8 +78,8 @@ const shuffle = () => {
   gameCounter.startTimer();
 };
 
-window.addEventListener("keydown", event => {
-  if (event.key === 'e') toggleLogo();
+window.addEventListener("keydown", (event) => {
+  if (event.key === "e") toggleLogo();
 });
 
 window.addEventListener("keydown", (event) => {

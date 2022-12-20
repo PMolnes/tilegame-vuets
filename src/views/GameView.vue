@@ -31,7 +31,6 @@
         :solved="solved"
       />
     </div>
-    <HowToPlayButton />
   </div>
 </template>
 
@@ -45,7 +44,6 @@ import EyeIcon from "../components/EyeIcon.vue";
 import SaveHighscore from "../components/SaveHighscore.vue";
 import BaseButton from "../components/BaseButton.vue";
 import BaseTransition from "../components/BaseTransition.vue";
-import HowToPlayButton from "../components/HowToPlayButton.vue";
 
 let gameCounter = useGameCounterStore();
 let solved = ref<boolean>();
@@ -60,6 +58,8 @@ const buttonText = computed(() => {
 const toggleSaveHighscoreModal = () => {
   showSaveHighscoreModal.value = !showSaveHighscoreModal.value;
 };
+
+// test workflow
 
 const shuffle = () => {
   showLogo.value = false;

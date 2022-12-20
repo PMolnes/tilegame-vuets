@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { child, get, getDatabase, limitToFirst, onChildAdded, onValue, orderByChild, query, ref } from "firebase/database";
+import { child, getDatabase, limitToFirst, onValue, orderByChild, query, ref } from "firebase/database";
 import type { UserScore } from "./types/userScore";
 import { ref as vueRef } from 'vue';
 // TODO: Add SDKs for Firebase products that you want to use
